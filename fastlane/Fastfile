@@ -1,0 +1,15 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Build and upload CutTrack to TestFlight"
+  lane :beta do
+    sh("brew list xcodegen >/dev/null 2>&1 || brew install xcodegen")
+    sh("xcodegen generate")
+    build_app(
+      project: "CutTrack.xcodeproj",
+      scheme: "CutTrack",
+      export_method: "app-store"
+    )
+    upload_to_testflight
+  end
+end
